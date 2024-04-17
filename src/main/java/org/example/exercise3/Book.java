@@ -1,4 +1,4 @@
-package org.example;
+package org.example.exercise3;
 
 public class Book {
     private int id;
