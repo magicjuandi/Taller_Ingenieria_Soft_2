@@ -11,18 +11,26 @@ public class LibrarySystem {
     public void addBook(int id, String name){
         books.add(new Book(id, name));
     }
-    public void lendBook(int id){
-        if(books.contains(id) && books.get(id).isAvailable() == true){
-            books.get(id).setUnavailable();
-        }else{
-            System.out.println("Id invalido");
+    public void lendBook(int id) {
+        Book book = books.stream()
+                .filter(b -> b.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if (book != null && book.isAvailable()) {
+            book.setUnavailable();
+        } else {
+            System.out.println("Id inválido o libro no disponible");
         }
     }
-    public void returnBook(int id){
-        if(books.contains(id) && books.get(id).isAvailable() == false){
-            books.get(id).setAvailable();
-        }else{
-            System.out.println("Id invalido");
+    public void returnBook(int id) {
+        Book book = books.stream()
+                .filter(b -> b.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if (book != null && !book.isAvailable()) {
+            book.setAvailable();
+        } else {
+            System.out.println("Id inválido o libro no prestado");
         }
     }
     public List<Book> getBooks(){

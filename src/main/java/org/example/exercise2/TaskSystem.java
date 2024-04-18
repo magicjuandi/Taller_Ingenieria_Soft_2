@@ -15,17 +15,25 @@ public class TaskSystem {
         tasks.add(new Task(id,description));
     }
     public void completeTask(int id) {
-        if(tasks.contains(id)){
-            tasks.get(id).setCompleted();
-        }else{
-            System.out.println("Id invalido");
+        Task task = tasks.stream()
+                .filter(t -> t.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if(task != null){
+            task.setCompleted(true);
+        } else {
+            System.out.println("Id inválido");
         }
     }
-    public List<Task> getTasks(Predicate<Task> c) {
+    public List<Task> getCompletedTasks() {
         return tasks.stream()
-                .filter(c)
+                .filter(Task::getCompleted)
                 .collect(Collectors.toList());
     }
-
+    public List<Task> getIncompleteTasks() {
+        return tasks.stream()
+                .filter(Task::getInCompleted)
+                .collect(Collectors.toList());
+    }
 
 }
